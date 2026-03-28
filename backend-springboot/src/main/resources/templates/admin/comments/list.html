@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin | Commentaires</title>
+    <meta name="description" content="Modération des commentaires" />
+</head>
+<body>
+<h1>Commentaires</h1>
+<p><a th:href="@{/admin}">Retour dashboard</a></p>
+
+<h2>En attente</h2>
+<div th:if="${#lists.isEmpty(pendingComments)}">
+    <p>Aucun commentaire en attente.</p>
+</div>
+<table th:if="${!#lists.isEmpty(pendingComments)}">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Article</th>
+        <th>Auteur</th>
+        <th>Contenu</th>
+        <th>Date</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="c : ${pendingComments}">
+        <td th:text="${c.id}"></td>
+        <td>
+            <a th:href="@{/articles/{slug}(slug=${c.article.slug})}" th:text="${c.article.title}"></a>
+        </td>
+        <td th:text="${c.author}"></td>
+        <td th:text="${c.content}"></td>
+        <td th:text="${#temporals.format(c.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+        <td>
+            <form th:action="@{/admin/comments/{id}/approve(id=${c.id})}" method="post" style="display:inline">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit">Approuver</button>
+            </form>
+            <form th:action="@{/admin/comments/{id}/delete(id=${c.id})}" method="post" style="display:inline">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit">Supprimer</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Approuvés</h2>
+<div th:if="${#lists.isEmpty(approvedComments)}">
+    <p>Aucun commentaire approuvé.</p>
+</div>
+<table th:if="${!#lists.isEmpty(approvedComments)}">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Article</th>
+        <th>Auteur</th>
+        <th>Contenu</th>
+        <th>Date</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="c : ${approvedComments}">
+        <td th:text="${c.id}"></td>
+        <td>
+            <a th:href="@{/articles/{slug}(slug=${c.article.slug})}" th:text="${c.article.title}"></a>
+        </td>
+        <td th:text="${c.author}"></td>
+        <td th:text="${c.content}"></td>
+        <td th:text="${#temporals.format(c.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+        <td>
+            <form th:action="@{/admin/comments/{id}/delete(id=${c.id})}" method="post" style="display:inline">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit">Supprimer</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

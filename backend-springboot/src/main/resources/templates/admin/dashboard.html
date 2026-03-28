@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Dashboard</title>
+</head>
+<body>
+<h1>BackOffice</h1>
+<p>Dashboard en cours de construction.</p>
+
+<p><a th:href="@{/admin/articles}">Gérer les articles</a></p>
+
+<form th:action="@{/admin/logout}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <button type="submit">Se déconnecter</button>
+</form>
+</body>
+</html>

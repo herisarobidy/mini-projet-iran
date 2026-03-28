@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Iran War Platform | Dernières actualités</title>
+    <meta name="description" content="Plateforme d'information: articles sur la guerre en Iran." />
+</head>
+<body>
+<h1>Iran War Platform</h1>
+
+<p><a th:href="@{/admin}">Accéder au BackOffice</a></p>
+
+<section>
+    <h2>Derniers articles</h2>
+
+    <div th:if="${#lists.isEmpty(articles)}">
+        <p>Aucun article publié pour le moment.</p>
+    </div>
+
+    <ul th:if="${!#lists.isEmpty(articles)}">
+        <li th:each="a : ${articles}">
+            <a th:href="@{/articles/{slug}(slug=${a.slug})}" th:text="${a.title}"></a>
+        </li>
+    </ul>
+</section>
+</body>
+</html>

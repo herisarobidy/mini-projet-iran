@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Login</title>
+</head>
+<body>
+<h1>Connexion administrateur</h1>
+<form th:action="@{/admin/login}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <div>
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" required />
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required />
+    </div>
+    <button type="submit">Se connecter</button>
+</form>
+
+<div th:if="${param.error}">
+    <p>Identifiants invalides</p>
+</div>
+</body>
+</html>

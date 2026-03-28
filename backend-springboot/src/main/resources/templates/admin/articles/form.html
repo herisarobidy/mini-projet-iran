@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin | Article</title>
+    <meta name="description" content="Création et édition d'articles" />
+</head>
+<body>
+<h1 th:text="${articleId} != null ? 'Modifier un article' : 'Créer un article'"></h1>
+<p><a th:href="@{/admin/articles}">Retour liste</a></p>
+
+<form id="articleForm" th:action="${articleId} != null ? @{/admin/articles/{id}(id=${articleId})} : @{/admin/articles}" method="post" th:object="${form}">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <div>
+        <label for="title">Titre</label>
+        <input id="title" type="text" th:field="*{title}" required />
+    </div>
+
+    <div>
+        <label for="author">Auteur</label>
+        <input id="author" type="text" th:field="*{author}" required />
+    </div>
+
+    <div>
+        <label for="image">Image (URL)</label>
+        <input id="image" type="text" th:field="*{image}" />
+    </div>
+
+    <div>
+        <label for="categoryId">Catégorie</label>
+        <select id="categoryId" th:field="*{categoryId}" required>
+            <option value="">-- Choisir --</option>
+            <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+        </select>
+    </div>
+
+    <div>
+        <label for="published">Publié</label>
+        <input id="published" type="checkbox" th:field="*{published}" />
+    </div>
+
+    <div>
+        <label for="content">Contenu</label>
+        <textarea id="content" th:field="*{content}" rows="20" cols="80"></textarea>
+    </div>
+
+    <button type="submit">Enregistrer</button>
+</form>
+
+<script src="/vendor/tinymce/tinymce.min.js"></script>
+<script>
+    if (window.tinymce) {
+        tinymce.init({
+            license_key: 'gpl',
+            selector: '#content',
+            menubar: false,
+            plugins: 'lists link',
+            toolbar: 'undo redo | blocks | bold italic | bullist numlist | link',
+            height: 420
+        });
+    }
+
+    (function () {
+        var form = document.getElementById('articleForm');
+        if (!form) {
+            return;
+        }
+
+        form.addEventListener('submit', function (e) {
+            if (window.tinymce) {
+                var editor = tinymce.get('content');
+                if (editor) {
+                    var text = editor.getContent({ format: 'text' }).trim();
+                    if (!text) {
+                        e.preventDefault();
+                        alert('Le contenu est obligatoire.');
+                        return;
+                    }
+                    tinymce.triggerSave();
+                }
+            }
+        });
+    })();
+</script>
+</body>
+</html>

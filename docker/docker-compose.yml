@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: iran_postgres
+    environment:
+      POSTGRES_DB: iran_war_db
+      POSTGRES_USER: iran
+      POSTGRES_PASSWORD: iran
+    ports:
+      - "5432:5432"
+    volumes:
+      - iran_postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ../backend-springboot
+      dockerfile: Dockerfile
+    image: iran-war-backend:latest
+    container_name: iran_backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/iran_war_db
+      SPRING_DATASOURCE_USERNAME: iran
+      SPRING_DATASOURCE_PASSWORD: iran
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+volumes:
+  iran_postgres_data:

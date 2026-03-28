@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin | Catégorie</title>
+    <meta name="description" content="Création et édition de catégories" />
+</head>
+<body>
+<h1 th:text="${categoryId} != null ? 'Modifier une catégorie' : 'Créer une catégorie'"></h1>
+<p><a th:href="@{/admin/categories}">Retour liste</a></p>
+
+<form th:action="${categoryId} != null ? @{/admin/categories/{id}(id=${categoryId})} : @{/admin/categories}" method="post" th:object="${form}">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+    <div>
+        <label for="name">Nom</label>
+        <input id="name" type="text" th:field="*{name}" required />
+    </div>
+
+    <div>
+        <label for="description">Description</label>
+        <textarea id="description" th:field="*{description}" rows="6" cols="80"></textarea>
+    </div>
+
+    <button type="submit">Enregistrer</button>
+</form>
+</body>
+</html>

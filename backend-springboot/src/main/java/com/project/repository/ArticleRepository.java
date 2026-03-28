@@ -13,6 +13,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     boolean existsBySlug(String slug);
 
+    long countByCategoryId(Long categoryId);
+
     List<Article> findAllByPublishedTrueOrderByCreatedAtDesc();
 
     @Override

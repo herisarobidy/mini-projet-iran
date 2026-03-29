@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title th:text="${article.title} + ' | Iran War Platform'"></title>
     <meta name="description" content="Article" />
+<<<<<<< HEAD
     <script type="application/ld+json" th:inline="javascript">
         /*<![CDATA[*/
         var jsonLd = {
@@ -26,6 +27,32 @@
         }
         document.currentScript.text = JSON.stringify(jsonLd);
         /*]]>*/
+=======
+    <link rel="stylesheet" href="/css/style.css" />
+    <script type="application/ld+json" th:inline="javascript">
+        var jsonLd = {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "[[${article.title}]]",
+            "author": {
+                "@type": "Person",
+                "name": "[[${article.author}]]"
+            },
+            "datePublished": "[[${article.createdAt}]]",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "[[@{/articles/{slug}(slug=${article.slug})}]]"
+            }
+        };
+        if ([[${article.image != null and !#strings.isEmpty(article.image)}]]) {
+            jsonLd.image = ["[[${article.image}]]"];
+        }
+        /*
+         * Thymeleaf inline JS will output the JSON values above.
+         * We then write the final JSON string into this script tag.
+         */
+        document.currentScript.text = JSON.stringify(jsonLd);
+>>>>>>> c7e8e08 (feat: delivery updates)
     </script>
 </head>
 <body>
@@ -37,7 +64,7 @@
     <p>
         <span th:text="${article.author}"></span>
         <span> · </span>
-        <time th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd')}"></time>
+        <time th:text="${article.createdAt != null ? #temporals.format(article.createdAt, 'yyyy-MM-dd') : ''}"></time>
     </p>
 
     <div th:if="${article.image != null and !#strings.isEmpty(article.image)}">
@@ -62,7 +89,7 @@
             <p>
                 <strong th:text="${c.author}"></strong>
                 <span> · </span>
-                <time th:text="${#temporals.format(c.createdAt, 'yyyy-MM-dd HH:mm')}"></time>
+                <time th:text="${c.createdAt != null ? #temporals.format(c.createdAt, 'yyyy-MM-dd HH:mm') : ''}"></time>
             </p>
             <p th:text="${c.content}"></p>
             <hr />
@@ -72,8 +99,8 @@
 
 <section>
     <h2>Laisser un commentaire</h2>
-    <form th:action="@{/articles/{slug}/comments(slug=${article.slug})}" method="post">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <form th:attr="action=@{/articles/{slug}/comments(slug=${article.slug})}" method="post">
+        <input th:if="${_csrf != null}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
         <div>
             <label for="author">Nom</label>

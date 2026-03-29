@@ -5,6 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title th:text="${article.title} + ' | Iran War Platform'"></title>
     <meta name="description" content="Article" />
+    <script type="application/ld+json" th:inline="javascript">
+        /*<![CDATA[*/
+        var jsonLd = {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": /*[[${article.title}]]*/ "",
+            "author": {
+                "@type": "Person",
+                "name": /*[[${article.author}]]*/ ""
+            },
+            "datePublished": /*[[${#temporals.format(article.createdAt, 'yyyy-MM-dd\'T\'HH:mmXXX')}]]*/ "",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": /*[[@{/articles/{slug}(slug=${article.slug})}]]*/ ""
+            }
+        };
+        if (/*[[${article.image != null and !#strings.isEmpty(article.image)}]]*/ false) {
+            jsonLd.image = [/*[[${article.image}]]*/ ""];
+        }
+        document.currentScript.text = JSON.stringify(jsonLd);
+        /*]]>*/
+    </script>
 </head>
 <body>
 <p><a th:href="@{/}">Accueil</a></p>

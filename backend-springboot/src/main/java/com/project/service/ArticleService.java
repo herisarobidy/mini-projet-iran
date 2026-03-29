@@ -4,6 +4,8 @@ import com.project.model.Article;
 import com.project.model.Category;
 import com.project.repository.ArticleRepository;
 import com.project.repository.CategoryRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,10 @@ public class ArticleService {
 
     public List<Article> listPublished() {
         return articleRepository.findAllByPublishedTrueOrderByCreatedAtDesc();
+    }
+
+    public Page<Article> listPublished(Pageable pageable) {
+        return articleRepository.findAllByPublishedTrueOrderByCreatedAtDesc(pageable);
     }
 
     public List<Article> listAll() {

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Iran War Platform | Dernières actualités</title>
     <meta name="description" content="Plateforme d'information: articles sur la guerre en Iran." />
+    <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
 <h1>Iran War Platform</h1>
@@ -23,6 +24,12 @@
             <a th:href="@{/articles/{slug}(slug=${a.slug})}" th:text="${a.title}"></a>
         </li>
     </ul>
+
+    <nav th:if="${totalPages != null and totalPages > 1}">
+        <a th:if="${hasPrev}" th:href="@{/(page=${currentPage - 1})}">Précédent</a>
+        <span th:text="(${currentPage + 1}) + ' / ' + ${totalPages}"></span>
+        <a th:if="${hasNext}" th:href="@{/(page=${currentPage + 1})}">Suivant</a>
+    </nav>
 </section>
 </body>
 </html>

@@ -55,6 +55,7 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
+    @Transactional
     public void delete(Long commentId) {
         commentRepository.deleteById(commentId);
     }

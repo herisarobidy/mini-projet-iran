@@ -1,6 +1,8 @@
 package com.project.repository;
 
 import com.project.model.Article;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.EntityGraph;
 
@@ -16,6 +18,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     long countByCategoryId(Long categoryId);
 
     List<Article> findAllByPublishedTrueOrderByCreatedAtDesc();
+
+    Page<Article> findAllByPublishedTrueOrderByCreatedAtDesc(Pageable pageable);
 
     @Override
     @EntityGraph(attributePaths = "category")

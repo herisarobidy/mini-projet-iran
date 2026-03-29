@@ -18,6 +18,7 @@ services:
     image: iran-war-backend:latest
     container_name: iran_backend
     environment:
+      SERVER_PORT: 8080
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/iran_war_db
       SPRING_DATASOURCE_USERNAME: iran
       SPRING_DATASOURCE_PASSWORD: iran

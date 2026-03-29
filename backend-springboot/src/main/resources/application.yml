@@ -1,5 +1,12 @@
 server:
-  port: 8080
+  port: 8383
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json,image/svg+xml
+    min-response-size: 1024
+  error:
+    include-message: always
+    include-stacktrace: always
 
 spring:
   datasource:
@@ -13,6 +20,13 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          max-age: 365d
+          cache-public: true
 
 logging:
   level:

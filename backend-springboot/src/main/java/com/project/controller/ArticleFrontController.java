@@ -3,7 +3,9 @@ package com.project.controller;
 import com.project.model.Article;
 import com.project.service.ArticleService;
 import com.project.service.CommentService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +26,7 @@ public class ArticleFrontController {
     }
 
     @GetMapping("/articles/{slug}")
-    public String article(@PathVariable String slug, Model model) {
+    public String article(@PathVariable String slug, Model model, HttpServletRequest request) {
         Article article;
         try {
             article = articleService.getBySlug(slug);
@@ -34,6 +36,16 @@ public class ArticleFrontController {
 
         if (!article.isPublished()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        request.getSession();
+        Object csrfAttr = request.getAttribute(CsrfToken.class.getName());
+        if (csrfAttr == null) {
+            csrfAttr = request.getAttribute("_csrf");
+        }
+        if (csrfAttr instanceof CsrfToken csrfToken) {
+            csrfToken.getParameterName();
+            csrfToken.getToken();
         }
 
         model.addAttribute("article", article);

@@ -1,10 +1,7 @@
 User-agent: *
-<<<<<<< HEAD
 Disallow: /admin
 
 Sitemap: /sitemap.xml
-=======
 Disallow: /admin/
 
 Sitemap: http://localhost:8383/sitemap.xml
->>>>>>> c7e8e08 (feat: delivery updates)

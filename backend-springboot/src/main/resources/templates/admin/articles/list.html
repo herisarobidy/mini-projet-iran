@@ -3,41 +3,94 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Admin | Articles</title>
+    <title>Articles — BackOffice | Iran War Platform</title>
     <meta name="description" content="Gestion des articles" />
     <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-<h1>Articles</h1>
-<p><a th:href="@{/admin}">Retour dashboard</a></p>
-<p><a th:href="@{/admin/articles/new}">Créer un article</a></p>
 
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Titre</th>
-        <th>Slug</th>
-        <th>Publié</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="a : ${articles}">
-        <td th:text="${a.id}"></td>
-        <td th:text="${a.title}"></td>
-        <td th:text="${a.slug}"></td>
-        <td th:text="${a.published}"></td>
-        <td>
-            <a th:href="@{/admin/articles/{id}/edit(id=${a.id})}">Modifier</a>
-            <form th:action="@{/admin/articles/{id}/delete(id=${a.id})}" method="post" style="display:inline">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <button type="submit">Supprimer</button>
-            </form>
-            <a th:if="${a.published}" th:href="@{/articles/{slug}(slug=${a.slug})}">Voir</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<header class="topbar">
+    <div class="topbar-inner">
+        <a class="brand" th:href="@{/admin}" style="text-decoration:none;">
+            <span class="brand-badge" style="background: var(--accent);"></span>
+            <div>
+                <span class="brand-name" style="font-size:18px;">BackOffice</span>
+                <span class="brand-tagline">Iran War Platform</span>
+            </div>
+        </a>
+        <nav class="nav">
+            <a th:href="@{/admin/articles}" class="active">Articles</a>
+            <a th:href="@{/admin/categories}">Catégories</a>
+            <a th:href="@{/admin/comments}">Commentaires</a>
+        </nav>
+        <div class="topbar-actions">
+            <a class="btn btn-ghost btn-sm" th:href="@{/}">← Voir le site</a>
+            <a class="btn btn-primary btn-sm" th:href="@{/admin/articles/new}">+ Nouvel article</a>
+        </div>
+    </div>
+</header>
+
+<main class="container" style="padding-top: 32px;">
+
+    <div class="fade-up" style="display:flex; align-items:flex-end; justify-content:space-between; margin-bottom: 24px; flex-wrap:wrap; gap:12px;">
+        <div>
+            <span class="section-label">Gestion du contenu</span>
+            <h1 style="font-size: clamp(24px, 3vw, 36px); margin-bottom: 4px;">Articles</h1>
+            <p style="font-family: var(--font-ui); font-size:14px; color: var(--ink-light); margin:0;">
+                Gérez, éditez et publiez les articles de la plateforme.
+            </p>
+        </div>
+        <a class="btn btn-primary" th:href="@{/admin/articles/new}">+ Créer un article</a>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="table-wrap fade-up fade-up-1">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Titre</th>
+                    <th>Slug</th>
+                    <th>Statut</th>
+                    <th style="text-align:right;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="a : ${articles}">
+                    <td style="color: var(--ink-light); font-family: var(--font-ui); font-size:13px;" th:text="${a.id}"></td>
+                    <td>
+                        <span style="font-family: var(--font-ui); font-weight:600; color: var(--ink); font-size:14px;" th:text="${a.title}"></span>
+                    </td>
+                    <td>
+                        <code style="font-size:12px; background: var(--paper-2); padding: 2px 8px; border-radius: 3px; color: var(--ink-muted);" th:text="${a.slug}"></code>
+                    </td>
+                    <td>
+                        <span class="badge" th:classappend="${a.published} ? 'badge-accent' : 'badge-default'"
+                              th:text="${a.published} ? 'Publié' : 'Brouillon'"></span>
+                    </td>
+                    <td style="text-align:right;">
+                        <div style="display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap;">
+                            <a class="btn btn-ghost btn-sm" th:if="${a.published}"
+                               th:href="@{/articles/{slug}(slug=${a.slug})}">Voir</a>
+                            <a class="btn btn-sm" th:href="@{/admin/articles/{id}/edit(id=${a.id})}">Modifier</a>
+                            <form th:action="@{/admin/articles/{id}/delete(id=${a.id})}" method="post" style="margin:0;"
+                                  onsubmit="return confirm('Supprimer cet article ?')">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                <button class="btn btn-danger btn-sm" type="submit">Supprimer</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(articles)}">
+                    <td colspan="5" style="text-align:center; padding: 48px; color: var(--ink-light); font-family: var(--font-ui); font-size:14px;">
+                        Aucun article pour le moment. <a th:href="@{/admin/articles/new}">Créer le premier →</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</main>
 </body>
 </html>

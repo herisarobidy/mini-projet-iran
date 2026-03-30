@@ -7,10 +7,35 @@
     <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
+<header class="topbar">
+    <div class="topbar-inner">
+        <a class="brand" th:href="@{/}">
+            <span class="brand-badge" aria-hidden="true"></span>
+            <span>Iran War Platform</span>
+        </a>
+        <nav class="nav">
+            <a class="btn btn-link" th:href="@{/}">Accueil</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <section class="hero">
+        <h1>403 - Accès interdit</h1>
+        <p>Vous n'avez pas l'autorisation d'accéder à cette page.</p>
+    </section>
+
+    <section class="card">
+        <p><a class="btn" th:href="@{/}">Retour à l'accueil</a></p>
+    </section>
+</main>
+<<<<<<< HEAD
+=======
 <h1>403 - Accès interdit</h1>
 
 <p>Vous n'avez pas l'autorisation d'accéder à cette page.</p>
 
 <p><a th:href="@{/}">Retour à l'accueil</a></p>
+>>>>>>> 244e10f9486fa6ec8fb8e8ad2234036e0ae37312
 </body>
 </html>

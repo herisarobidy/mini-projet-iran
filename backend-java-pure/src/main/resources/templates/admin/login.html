@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin — Connexion | Iran War Platform</title>
+    <meta name="description" content="Connexion à l'espace d'administration (BackOffice) pour gérer articles, catégories et commentaires." />
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<div class="login-wrap">
+
+    <!-- Panneau visuel gauche -->
+    <div class="login-side-visual">
+        <div class="login-visual-content">
+            <div class="login-logo">
+                <span class="brand-badge"></span>
+            </div>
+            <p class="login-site-name">Iran War Platform</p>
+            <h2 class="login-quote">
+                L'information au cœur<br/>
+                <span>du conflit.</span>
+            </h2>
+            <p class="login-sub">Panneau d'administration — accès restreint</p>
+        </div>
+    </div>
+
+    <!-- Formulaire droite -->
+    <div class="login-panel">
+        <div class="login-box">
+
+            <div class="login-box-header">
+                <span class="section-label">BackOffice</span>
+                <h1>Connexion</h1>
+                <p class="login-box-subtitle">Entrez vos identifiants pour accéder au panneau d'administration.</p>
+            </div>
+
+            <div th:if="${param.error}" class="alert alert-danger" style="margin-bottom: 20px;">
+                ⚠ Identifiants invalides. Veuillez réessayer.
+            </div>
+
+            <form class="form" th:action="@{/admin/login}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                <div class="field">
+                    <label for="username">Nom d'utilisateur</label>
+                    <input id="username" name="username" type="text" required placeholder="admin" autocomplete="username" />
+                </div>
+
+                <div class="field">
+                    <label for="password">Mot de passe</label>
+                    <input id="password" name="password" type="password" required placeholder="••••••••" autocomplete="current-password" />
+                </div>
+
+                <button class="btn btn-primary" type="submit" style="width:100%; margin-top: 8px;">
+                    Se connecter →
+                </button>
+            </form>
+
+            <p class="login-footer-note">
+                <a th:href="@{/}" style="color: var(--ink-light); font-size:13px; font-family: var(--font-ui);">
+                    ← Retour au site
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+.login-visual-content {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    max-width: 420px;
+}
+.login-logo {
+    margin-bottom: 24px;
+}
+.login-logo .brand-badge {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: var(--accent);
+    display: block;
+}
+.login-site-name {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin: 0 0 16px;
+}
+.login-quote {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 900;
+    line-height: 1.1;
+    color: #fff;
+    margin: 0 0 20px;
+}
+.login-quote span { color: var(--accent); }
+.login-sub {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    margin: 0;
+}
+.login-box-header { margin-bottom: 28px; }
+.login-box-header h1 { font-size: 30px; margin: 6px 0 8px; }
+.login-box-subtitle {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    color: var(--ink-light);
+    margin: 0;
+}
+.login-footer-note { margin-top: 24px; text-align: center; }
+</style>
+
+</body>
+</html>

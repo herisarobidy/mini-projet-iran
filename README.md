@@ -1,7 +1,7 @@
 # iran-war-platform
 
 Mono-repo:
-- backend-springboot
+- backend-java-pure
 - mobile-vue
 - docker
 - documentation
@@ -25,16 +25,17 @@ Plateforme d'articles (front-office) avec un espace d'administration (CRUD artic
    - User: `iran`
    - Password: `iran`
 
-2. Lancer Spring Boot:
+2. Lancer le backend Java (sans Spring):
 
-   - Ouvrir le dossier `backend-springboot`
-   - Démarrer l'application (IDE) ou:
+   - Ouvrir le dossier `backend-java-pure`
+   - Builder et lancer:
 
-     - `mvn spring-boot:run`
+     - `mvn -q -DskipTests clean package`
+     - `java -jar target/backend-java-pure-0.0.1-SNAPSHOT-all.jar`
 
 3. Accès:
 
-   - Front-office: http://localhost:8383/
+   - Front-office: http://localhost:8080/
 
 ## Démarrage avec Docker (backend + PostgreSQL)
 
@@ -47,6 +48,15 @@ Le `docker-compose.yml` est dans `docker/`.
 2. Accès:
 
    - Front-office: http://localhost:8080/
+
+## Variables d'environnement (backend)
+
+- `SERVER_PORT` (défaut: `8080`)
+- `SPRING_DATASOURCE_URL` (défaut: `jdbc:postgresql://localhost:5432/iran_war_db`)
+- `SPRING_DATASOURCE_USERNAME` (défaut: `iran`)
+- `SPRING_DATASOURCE_PASSWORD` (défaut: `iran`)
+- `PUBLIC_BASE_URL` (défaut: `http://localhost:8080`) utilisé pour générer les URLs dans `/sitemap.xml`
+- `FLYWAY_REPAIR` (défaut: `false`) si `true`, exécute `flyway.repair()` au démarrage (utile quand un volume Docker contient un historique Flyway avec checksum mismatch)
 
 ## URLs utiles
 
@@ -77,3 +87,23 @@ Le `docker-compose.yml` est dans `docker/`.
 
 - Si la base locale ne contient pas les mêmes données que Docker: ce sont 2 bases différentes (PostgreSQL local vs conteneur).
 - En Docker, le backend écoute sur le port `8080` (variable `SERVER_PORT=8080` dans `docker/docker-compose.yml`).
+
+## Identifiants admin
+
+- Username: `admin`
+- Password: `admin123`
+
+## Schéma de base de données
+
+Tables:
+
+- `users`
+- `categories`
+- `articles`
+- `comments`
+
+Relations:
+
+- `articles.category_id` -> `categories.id` (FK, `ON DELETE SET NULL`)
+- `comments.article_id` -> `articles.id` (FK, `ON DELETE CASCADE`)
+

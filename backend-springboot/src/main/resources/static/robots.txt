@@ -1,7 +1,0 @@
-User-agent: *
-Disallow: /admin
-
-Sitemap: /sitemap.xml
-Disallow: /admin/
-
-Sitemap: http://localhost:8383/sitemap.xml
